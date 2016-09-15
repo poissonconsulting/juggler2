@@ -1,0 +1,22 @@
+Package: juggler2
+Title: Manipulate JAGS Model Code
+Version: 0.0.0.9000
+Date: 2016-09-15
+Authors@R: c(
+    person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
+    person("Will", "Thorley", email = "will.thorley@gmail.com", role = c("aut")))
+Description: Manipulates BUGS model code in the JAGS dialect.
+License: MIT + file LICENSE
+URL: https://github.com/poissonconsulting/juggler2
+BugReports: https://github.com/poissonconsulting/juggler2/issues
+Depends:
+    R (>= 3.3.1)
+Imports:
+    datacheckr,
+    magrittr,
+    stringr
+Suggests:
+    testthat
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1

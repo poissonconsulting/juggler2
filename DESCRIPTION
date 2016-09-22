@@ -20,5 +20,6 @@ Imports:
 Suggests:
     testthat
 Encoding: UTF-8
+Remotes: poissonconsulting/juggler
 LazyData: true
 RoxygenNote: 5.0.1

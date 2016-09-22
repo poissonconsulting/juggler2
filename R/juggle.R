@@ -1,15 +1,20 @@
-#' Juggle JAGS Model Code
-#'
-#' @param model_code A string of the JAGS model to manipulate.
-#' @return A jg_model object.
+#' Juggle JAGS model code
+#' 
+#' Juggles JAGS model code, i.e., 
+#' takes code in the JAGS dialect of the BUGS language
+#' and produces alternative models from model fragments.
+#' 
+#' jg_juggle currently requires that each node be defined on
+#' a separate line of code. It takes advantage of the fact
+#' that each node is unique.
+#'   
+#' @param x string of JAGS model code
+#' @param fragments A character vector of model fragments
+#' @return A character vector of alternative JAGS models.
 #' @export
-juggle <- function(model_code) {
-  check_vector(model_code, "")
-
-  model_code %<>% paste0(collapse = "\n")
-  model_code %<>% separate_comments()
-
-  obj <- list()
-  class(obj) <- "jg_model"
-  obj
+jg_juggle <- function(x, fragments = character(0)) {
+  jg_check(x)
+  
+  x %<>% jg_replicate_modelcode(fragments)
+  x
 }

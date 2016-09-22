@@ -14,7 +14,9 @@ Depends:
 Imports:
     datacheckr,
     magrittr,
-    stringr
+    stringr,
+    R6,
+    juggler
 Suggests:
     testthat
 Encoding: UTF-8

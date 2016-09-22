@@ -1,0 +1,31 @@
+#' Parse Node Lines
+#'
+#' @param x to parse.
+jg_extract_modelcode_fragment <- function(x) {
+  check_string(x)
+  stopifnot(!any_new_line(x))
+  x %<>% stringr::str_match_all("^\\s*(\\w(?:\\s*\\[[^\\]]+\\])?)\\s*(~|<-)\\s*([^~#(?:<\\-)]+)(#.+)?$")
+
+  modelcode_fragment <-jg_ModelCodeFragment$new(whole = x[[1]][1],
+                            variable_name = x[[1]][2],
+                            operator = x[[1]][3],
+                            expression = x[[1]][4],
+                            comment = x[[1]][5])
+
+  modelcode_fragment
+}
+
+check_string <- function (x) {
+  if (!is.character(x))
+    stop("x must be class character")
+
+  if(!is.string(x)) {
+    message("collapsing x into string")
+    x <- paste0(x, collapse = "\n")
+  }
+  x
+}
+
+any_new_line <- function(x) stringr::str_detect(x, "\\n")
+any_comment <- function(x) stringr::str_detect(x, "#")
+is.string <- function(x) is.character(x) && length(x) == 1

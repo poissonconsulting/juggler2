@@ -32,7 +32,7 @@ jg_ModelCode <- R6Class(
     initialize = function(model = "", prediction = "", CurrentState = DefaultState){
       private$vmodel <- model
       private$vprediction <- prediction
-      private$StateStack <- state_stack_class$new(CurrentState)
+      private$StateStack <- statestackr::StateStack$new(CurrentState)
     },
     generate_code = function(x) {
       self$clear()
@@ -40,14 +40,14 @@ jg_ModelCode <- R6Class(
       ModelLines <- ModelLines[[1]]
       for(line in 1:length(ModelLines)){
         CurLine <- ModelLines[line]
-        self$append_line(CurLine) 
+        self$append_line(CurLine)
       }
-      private$StateStack <<- state_stack_class$new(DefaultState)
+      private$StateStack <<- statestackr::StateStack$new(DefaultState)
     },
     clear = function(){
       private$vmodel <<- ""
       private$vprediction <<- ""
-      private$StateStack <<- state_stack_class$new(DefaultState)
+      private$StateStack <<- statestackr::StateStack$new(DefaultState)
     },
     append_line = function(CurLine){
       private$up_scope_update(CurLine)
@@ -56,12 +56,12 @@ jg_ModelCode <- R6Class(
       private$update_code(CurLine,CommandString)
       private$down_scope_update(CurLine)
     }),
-  
+
   private = list(
     vmodel = "",
     vprediction = "",
     StateStack = NULL,
-  
+
   up_scope_update = function(CurLine){
     braces <- findInString("\\{",CurLine)
     if(braces>0){
@@ -83,19 +83,19 @@ jg_ModelCode <- R6Class(
       NewState <- 0L
       if(findInString("P",CommandString)>0) { NewState <- NewState+PredictionFlag }
       if(findInString("M",CommandString)>0) { NewState <- NewState+ModelFlag }
-      private$StateStack$State <<-NewState
+      private$StateStack$set(NewState)
     }
   },
   update_code = function(CurLine,CommandString) {
-    
+
     pline <- any(findInString("p",CommandString)>0)
     mline <- any(findInString("m",CommandString)>0)
-    
-    pstate <-any(bitwAnd(as.integer(private$StateStack$State),PredictionFlag) > 0)
-    mstate <- any(bitwAnd(as.integer(private$StateStack$State),ModelFlag)>0)
-    
+
+    pstate <-any(bitwAnd(as.integer(private$StateStack$peek()),PredictionFlag) > 0)
+    mstate <- any(bitwAnd(as.integer(private$StateStack$peek()),ModelFlag)>0)
+
     stateline <- pline|mline
-    
+
     if(pline | (!stateline & pstate)) {
       private$vprediction <<- paste(private$vprediction,paste(CurLine,"\n"))
     }

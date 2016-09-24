@@ -16,10 +16,12 @@ Imports:
     magrittr,
     stringr,
     R6,
-    juggler
+    juggler,
+    statestackr
 Suggests:
     testthat
 Encoding: UTF-8
-Remotes: poissonconsulting/juggler
+Remotes: poissonconsulting/juggler,
+         Thormidable/statestackr
 LazyData: true
 RoxygenNote: 5.0.1

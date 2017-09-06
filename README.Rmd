@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-R package to manipulate BUGS model code in the JAGS dialect.
+A DEPRECATED R package to manipulate BUGS model code in the JAGS dialect.
 
 ## Installation
 
